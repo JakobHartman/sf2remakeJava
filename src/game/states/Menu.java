@@ -1,6 +1,5 @@
-package menu;
+package game.states;
 
-import com.google.gson.Gson;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -20,14 +19,15 @@ public class Menu extends BasicGameState {
     private ArrayList<String> menuItems;
     private Image image;
     private Music music;
+    private int id;
 
     public Menu(int state) {
-
+        this.id = state;
     }
 
     @Override
     public int getID() {
-        return 0;
+        return this.id;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Menu extends BasicGameState {
 //            float x = (gameContainer.getWidth() / 2) - (tWidth / 2);
 //            float y = (gameContainer.getHeight() / 2) - (t_h / 2) + ((5 * 2) + 5 * tHeight);
 //        }
-        if(!music.playing()){
+        if (!music.playing()) {
             music.loop();
         }
         graphics.drawImage(this.image.getScaledCopy(gameContainer.getWidth(), 200), 0, 50);
@@ -66,7 +66,7 @@ public class Menu extends BasicGameState {
 
         Input input = gameContainer.getInput();
         if (keyPressed(input)) {
-            music.fade(500,0f,true);
+            music.fade(500, 0f, true);
             stateBasedGame.enterState(1, new FadeOutTransition(), new FadeInTransition());
         }
     }
