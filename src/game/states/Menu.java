@@ -32,13 +32,12 @@ public class Menu extends BasicGameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        File fontFile = new File("resources/font/JOYSTIX.TTF");
         this.image = new Image("resources/images/S2_Logo.png");
-        this.menuItems = new ArrayList<>();
-        this.menuItems.add("Press any key to start");
         music = new Music("resources/audio/music/Battle2.ogg");
-
         try {
-            this.mainFont = new Font("JOYSTIX", Font.PLAIN, 20);
+            this.mainFont = Font.createFont(Font.TRUETYPE_FONT,fontFile);
+            this.mainFont = mainFont.deriveFont(20f);
             this.font = new TrueTypeFont(this.mainFont, true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,15 +46,6 @@ public class Menu extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-//        for (int i = 0; i < menuItems.size(); i++) {
-//            String item = menuItems.get(i);
-//            TrueTypeFont font = new TrueTypeFont(this.mainFont, true);
-//            float tWidth = font.getWidth(item);
-//            float tHeight = font.getHeight(item);
-//            float t_h = menuItems.size() * tHeight;
-//            float x = (gameContainer.getWidth() / 2) - (tWidth / 2);
-//            float y = (gameContainer.getHeight() / 2) - (t_h / 2) + ((5 * 2) + 5 * tHeight);
-//        }
         if (!music.playing()) {
             music.loop();
         }
@@ -63,14 +53,12 @@ public class Menu extends BasicGameState {
         graphics.setFont(font);
         graphics.drawString("Press any key to start", 85, 359);
 
-
         Input input = gameContainer.getInput();
         if (keyPressed(input)) {
             music.fade(500, 0f, true);
             stateBasedGame.enterState(1, new FadeOutTransition(), new FadeInTransition());
         }
     }
-
 
     public Boolean keyPressed(Input input) {
         for (int i = 0; i < 223; i++) {
