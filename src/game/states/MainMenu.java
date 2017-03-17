@@ -2,6 +2,7 @@ package game.states;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.fills.GradientFill;
@@ -9,6 +10,7 @@ import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import util.DialogUtil;
+import util.FontUtil;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class MainMenu extends BasicGameState {
     private boolean showTalkAnimation;
     private List<String> lines;
     private boolean dialogBoxShow = false;
+    private TrueTypeFont font;
 
 
     public MainMenu(int state) {
@@ -39,6 +42,7 @@ public class MainMenu extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         // 564 x 446
+        font = FontUtil.getFont("resources/font/ferrum.otf","ferrum",40);
         Image mitulaMain = new Image("resources/images/sprites/Mitula Old Woman.png");
         Image mitulaFaces = mitulaMain.getSubImage(33, 10, 182, 49);
         mitulaOld = mitulaMain.getSubImage(292, 223, 262, 213).getScaledCopy(gameContainer.getWidth(), gameContainer.getHeight());
@@ -50,7 +54,7 @@ public class MainMenu extends BasicGameState {
         Image[] faceTalkAnimation = {originFace, mitulaSheet.getSprite(2, 0).getScaledCopy(111, 118), mitulaSheet.getSprite(0, 0).getScaledCopy(111, 118)};
         faceAnimation = new Animation(faceTalkAnimation, 3);
         rect = new RoundedRectangle(0, 260, gameContainer.getWidth(), (gameContainer.getHeight() / 3), 15);
-        lines = DialogUtil.wrap("Hee, hee, hee... your're finally here! Ah, you look so confused. You don't know why your here?", gameContainer.getDefaultFont(), 460);
+        lines = DialogUtil.wrap("Hee, hee, hee... your're finally here! Ah, you look so confused. You don't know why your here?", font, 480);
     }
 
     private int renderRow = 0;
@@ -76,15 +80,16 @@ public class MainMenu extends BasicGameState {
             ShapeFill fill = new GradientFill(rect.getWidth(), 0, new Color(0, 0, 255, .7f), rect.getWidth(), rect.getHeight() + 10, new Color(0, 0, 255, .2f), true);
             graphics.fill(rect, fill);
 
-            int lineHeight = gameContainer.getDefaultFont().getLineHeight();
+            int lineHeight = font.getLineHeight();
 
-            int dx = 20;
-            int dy = 300;
+            int dx = 10;
+            int dy = 290;
             for (int i = 0; i < renderRow + 1; i++) {
                 String line = lines.get(i);
                 int len = i < renderRow ? line.length() : renderCol;
                 String t = line.substring(0, len);
                 if (t.length() != 0) {
+                    graphics.setFont(font);
                     graphics.drawString(t, dx, dy);
                 }
                 dy += lineHeight;
@@ -145,9 +150,9 @@ public class MainMenu extends BasicGameState {
         boolean spacePressed = input.isKeyPressed(Input.KEY_SPACE);
 
         if (spacePressed && canSec) {
-            changeDialog("Yes, yes... I used a spell on you.\n\n Ha, ha where you are going?",gameContainer.getDefaultFont());
+            changeDialog("Yes, yes... I used a spell on you.\n\n Ha, ha where you are going?",font);
         } else if (spacePressed && canThird) {
-            changeDialog("You can't escape from this mysterious forest unless you help me? Whatcha gonna do?", gameContainer.getDefaultFont());
+            changeDialog("You can't escape from this mysterious forest unless you help me? Whatcha gonna do?", font);
         } else if (spacePressed && canClear){
             dialogBoxShow = false;
         }

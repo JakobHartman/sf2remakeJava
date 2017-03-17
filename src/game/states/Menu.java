@@ -10,14 +10,11 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import java.awt.Font;
 import java.io.File;
-import java.util.ArrayList;
 
 
 public class Menu extends BasicGameState {
 
     private TrueTypeFont font;
-    private Font mainFont = null;
-    private ArrayList<String> menuItems;
     private Image image;
     private Music music;
     private int id;
@@ -37,9 +34,8 @@ public class Menu extends BasicGameState {
         this.image = new Image("resources/images/S2_Logo.png");
         music = new Music("resources/audio/music/Battle2.ogg");
         try {
-            this.mainFont = Font.createFont(Font.TRUETYPE_FONT,fontFile);
-            this.mainFont = mainFont.deriveFont(20f);
-            this.font = new TrueTypeFont(this.mainFont, true);
+            Font mainFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            this.font = new TrueTypeFont(mainFont.deriveFont(20f), true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +57,7 @@ public class Menu extends BasicGameState {
         }
     }
 
-    public Boolean keyPressed(Input input) {
+    private Boolean keyPressed(Input input) {
         for (int i = 0; i < 223; i++) {
             if (input.isKeyPressed(i)) {
                 return true;
