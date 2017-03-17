@@ -23,7 +23,6 @@ public class Startup extends StateBasedGame {
         this.getState(menu).init(gameContainer, this);
         this.getState(play).init(gameContainer, this);
         this.getState(mainMenu).init(gameContainer,this);
-//        this.enterState(mainMenu, new FadeInTransition(), null);
     }
 
     public static void main(String[] args) {
@@ -31,6 +30,7 @@ public class Startup extends StateBasedGame {
             AppGameContainer app = new AppGameContainer(new Startup());
             app.setDisplayMode(500, 500, false);
             app.setVSync(true);
+            app.setAlwaysRender(true);
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();
